@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "graph.h"
 
 const float r = 20;
 const float h = 600;

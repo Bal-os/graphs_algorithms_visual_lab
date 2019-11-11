@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 struct Color {
 	double red = 0, green = 0, blue = 0;
 	explicit Color(double red, double green, double blue) : red(red), green(green), blue(blue) {
@@ -31,12 +33,12 @@ public:
 	bool operator== (const Vertex&) const;
 	bool operator!= (const Vertex&) const;
 
-	void setDist(long long &);
-	void setVisible(bool &);
-	void setNum(int &);
-	void setX(double &x);
-	void setY(double &y);
-	void setRadius(double &r);
+	void setDist(long long&);
+	void setVisible(bool&);
+	void setNum(int&);
+	void setX(double&);
+	void setY(double&);
+	void setRadius(double &);
 
 	double getX() const;
 	double getY() const;
@@ -44,7 +46,6 @@ public:
 	long long getDist() const;
 	double getRadius() const;
 
-	bool isActive() const;
 	bool isVisible() const;
 	bool intersect(double &x, double &y) const;
 	
@@ -54,6 +55,8 @@ class Graph
 {
 public:
 	Graph();
+	Graph(int size);
+    Graph(int size, bool oriented);
 	~Graph();
 };
 
