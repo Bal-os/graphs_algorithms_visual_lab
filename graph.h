@@ -20,8 +20,6 @@ private:
 	int num = 0;
 	bool visible = true;
 private:
-	const long long MAX_COST = 1000000000;
-	const long long MIN_COST = -MAX_COST;
 	const double STANDART_RADIUS = 15;
 public:
 	Color color;

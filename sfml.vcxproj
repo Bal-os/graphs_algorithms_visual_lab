@@ -126,11 +126,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GrapgAlgo.cpp" />
     <ClCompile Include="graph.cpp" />
+    <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GrapgAlgo.h" />
     <ClInclude Include="graph.h" />
+    <ClInclude Include="Graphic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
