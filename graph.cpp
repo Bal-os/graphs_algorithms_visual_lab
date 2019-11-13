@@ -1,28 +1,36 @@
 #include "graph.h"
 
+using namespace std;
 
-
-Graph::Graph()
-{
+void Graph::renumerate(){
+	for (int i = 0; i < vertexes.size(); ++i)
+		vertexes[i]->setNum(i);
 }
 
-Graph::Graph(int size)
-{
+void Graph::resize(int size){
+	edges.assign(size, vector<int>());
+	costs.assign(size, vector<long long>());
+	vertexes.assign(size, nullptr);
+	for (size_t i = 0; i < size; ++i)vertexes[i] = new Vertex(0, 0);
+	renumerate();
 }
 
-Graph::Graph(int size, bool oriented)
-{
+Graph::Graph(int size) {
+	resize(size);
 }
 
-
-Graph::~Graph()
-{
+Graph::Graph(int size, bool oriented) : Graph(size) {
+	this->oriented = oriented;
 }
 
-Vertex::Vertex(double& x, double& y, double &radius) : x(x), y(y), radius(radius), color(0, 0, 0){
+Vertex::Vertex(double, double) : x(x), y(y), radius(STANDART_RADIUS), color(0, 0, 0) {
 }
 
-Vertex::Vertex(double& x, double& y, double& radius, Color &color) : Vertex(x, y, radius){
+Vertex::Vertex(double x, double y, double &radius) : Vertex(x , y){
+	this->radius = radius;
+}
+
+Vertex::Vertex(double x, double y, double& radius, Color &color) : Vertex(x, y, radius){
 	this->color = color;
 }
 

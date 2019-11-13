@@ -1,5 +1,5 @@
 #pragma once
-
+#include <vector>
 #include <cmath>
 
 struct Color {
@@ -25,8 +25,9 @@ private:
 	const double STANDART_RADIUS = 15;
 public:
 	Color color;
-	Vertex(double&, double&, double&);
-	Vertex(double&, double&, double&, Color&);
+	Vertex(double, double);
+	Vertex(double, double, double& radius);
+	Vertex(double, double, double& radius, Color&);
 	void moveTo(double&, double&);
 	void moveByVector(double&, double&);
 	
@@ -53,10 +54,18 @@ public:
 
 class Graph
 {
+private:
+	bool numbered = true;
+	bool oriented = false;
+	int size;
+	void resize(int size);
+	void renumerate();
 public:
-	Graph();
+	std::vector<Vertex*> vertexes;
+	std::vector < std::vector<int> > edges;
+	std::vector< std::vector<long long> > costs;
 	Graph(int size);
     Graph(int size, bool oriented);
-	~Graph();
+	~Graph() = default;
 };
 
