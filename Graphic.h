@@ -1,8 +1,31 @@
 #pragma once
-class Graphic
+
+#include<iostream>
+#include<ctime>
+#include<cstdlib>
+#include"State.h"
+
+class Graphic 
 {
+private:
+	sf::RenderWindow* window;
+	sf::Event event;
+
+	State* state;
+
+	void initWindow();
 public:
+	
 	Graphic();
-	~Graphic();
+	virtual ~Graphic();
+
+	sf::Clock dtClock;
+	float dt;
+
+	void updateDt();
+	void updateEvents();
+	void update();
+	void render();
+	void run();
 };
 
