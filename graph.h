@@ -13,6 +13,8 @@ private:
 public:
 	void addNode(Node*);
 	void addEdge(const Node*,const Node*, long long cost = 0);
+	void deleteNode(const Node*);
+	void deleteNode(int );
 	std::vector<Node*> Nodees;
 	std::vector < std::vector<int> > edges;
 	std::vector< std::vector<long long> > costs;

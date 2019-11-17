@@ -19,16 +19,13 @@ private:
 	double x;
 	double y;
 	double radius;
-	long long distanse;
 	int num = 0;
 	bool visible = true;
-	sf::CircleShape *shape;
+	sf::Color color; 
 	bool intersect(const Node& other) const;
 private:
-	const double STANDART_RADIUS = 15;
+	const double STANDART_RADIUS = 5;
 public:
-
-	sf::Color color; 
 	Node(double, double);
 	Node(double, double, double& radius);
 	Node(double, double, double& radius, sf::Color&);
@@ -38,20 +35,17 @@ public:
 	bool operator== (const Node&) const;
 	bool operator!= (const Node&) const;
 
-	void setDist(long long&);
-	void setVisible(bool&);
-	void setNum(int&);
+	void setVisible(bool);
+	void setNum(int);
 	void setX(double);
 	void setY(double);
-	void setRadius(double&);
-	void update();
+	void setRadius(double);
 
 	double getX() const;
 	double getY() const;
 	int getNum() const;
-	long long getDist() const;
 	double getRadius() const;
-	sf::CircleShape* getShape();
+	sf::Color getColor();
 
 	bool isVisible() const;
 

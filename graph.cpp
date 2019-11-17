@@ -15,6 +15,37 @@ void Graph::resize(int size){
 	renumerate();
 }
 
+void Graph::deleteNode(int num) {
+	for (size_t i = 0; i < edges.size(); ++i) {
+		for (size_t j = 0; j < edges[i].size(); ++j) {
+			if (edges[i][j] == num) {
+				edges[i].erase(edges[i].begin() + j);
+				costs[i].erase(costs[i].begin() + j);
+				break;
+			}
+		}
+	}
+	for (size_t i = num; i + 1 < Nodees.size(); ++i) {
+		Nodees[i] = Nodees[i + 1];
+		costs[i] = costs[i + 1];
+		edges[i] = edges[i + 1];
+	}
+
+	Nodees.pop_back();
+	costs.pop_back();
+	edges.pop_back();
+	for (size_t i = 0; i < edges.size(); ++i) {
+		for (int& j : edges[i])
+			if (j >= num) j--;
+	}
+
+	renumerate();
+}
+
+void Graph::deleteNode(const Node* X) {
+	deleteNode(X->getNum());
+}
+
 void Graph::addNode(Node* X){
 	Nodees.push_back(X);
 	edges.push_back({});
@@ -49,3 +80,4 @@ Graph::Graph() : Graph(0){
 Graph::Graph(int size, bool oriented) : Graph(size) {
 	this->oriented = oriented;
 }
+
