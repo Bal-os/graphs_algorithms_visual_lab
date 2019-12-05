@@ -17,7 +17,6 @@ Graphic::Graphic(){
 	this->state = new State(this->window);
 }
 
-
 Graphic::~Graphic(){
 	delete this->window;
 }

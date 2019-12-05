@@ -7,13 +7,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 
-/*struct Colour {
-	double red = 0, green = 0, blue = 0;
-	explicit Colour(double red, double green, double blue) : red(red), green(green), blue(blue) {
-
-	}
-};*/
-
 class Node {
 private:
 	double x;

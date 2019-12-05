@@ -1,5 +1,4 @@
 #include "graph.h"
-
 using namespace std;
 
 void Graph::renumerate(){
@@ -51,6 +50,24 @@ void Graph::addNode(Node* X){
 	edges.push_back({});
 	costs.push_back({});
 	renumerate();
+}
+
+void Graph::deleteEdge(int x, int y) {
+	for (size_t i = 0; i < edges[x].size(); ++i)
+		if (edges[x][i] == y) {
+			edges[x].erase(edges[x].begin() + i);
+			costs[x].erase(costs[x].begin() + i);
+		}
+	if (!oriented) {
+		for (size_t i = 0; i < edges[y].size(); ++i)
+			if (edges[y][i] == x) {
+				edges[y].erase(edges[y].begin() + i);
+				costs[y].erase(costs[y].begin() + i);
+			}
+	}
+}
+void Graph::deleteEdge(const Node* X, const Node* Y) {
+	deleteEdge(X->getNum(), Y->getNum());
 }
 
 void Graph::addEdge(int XNum, int YNum, long long cost) {

@@ -20,7 +20,7 @@ public:
 	virtual ~Graphic();
 
 	sf::Clock dtClock;
-	float dt;
+	double dt;
 
 	void updateDt();
 	void updateEvents();

@@ -2,31 +2,31 @@
 
 using namespace std;
 
-void GrapgAlgo::dfsAlgo(Graph* G, int num, std::vector<bool>& used, std::vector<std::pair<Node*, Node*>>& r){
+void GrapgAlgo::dfsAlgo(Graph* G, int num, std::vector<bool>& used, result_vector& r){
 	used[num] = true;
 	for (auto j : G->edges[num])
 	{
 		if (!used[j])
-			r.push_back({ G->Nodees[num], G->Nodees[j] });
+			r.push_back({{ G->Nodees[num], G->Nodees[j] }, 0});
 			dfsAlgo(G, j, used, r);
 	}
 }
 
-std::vector<std::pair<Node*, Node*>> GrapgAlgo::dfs(Graph* G, Node* X)
+result_vector GrapgAlgo::dfs(Graph* G, Node* X)
 {
-	vector<pair<Node*, Node*> > r;
+	result_vector r;
 	vector<bool> used(G->Nodees.size(), false);
-	r.push_back({ nullptr, X });
+	r.push_back({ { nullptr, X }, 0});
 	dfsAlgo(G, (X->getNum()), used, r);
 	return r;
 }
 
-vector<pair<Node*, Node*> > GrapgAlgo::bfs(Graph* G,Node* X) {
-	vector<pair<Node*, Node*> > r;
+result_vector GrapgAlgo::bfs(Graph* G,Node* X) {
+	result_vector r;
 	vector<bool> used(G->Nodees.size(), false);
 	vector<size_t> q;
 	vector<int> pr(G->Nodees.size(), 0);
-	r.push_back({ nullptr, X });
+	r.push_back({ { nullptr, X }, 0});
 	used[X->getNum()] = true;
 	q.push_back(X->getNum());
 
@@ -34,7 +34,7 @@ vector<pair<Node*, Node*> > GrapgAlgo::bfs(Graph* G,Node* X) {
 		size_t& i = *(q.begin());
 		q.pop_back();
 		if ((int)i != X->getNum())
-			r.push_back({ G->Nodees[pr[i]], G->Nodees[i] });
+			r.push_back({ { G->Nodees[pr[i]], G->Nodees[i] }, 0});
 		for (auto j : G->edges[i]) {
 			if (!used[j]) {
 				pr[j] = i;
@@ -47,7 +47,7 @@ vector<pair<Node*, Node*> > GrapgAlgo::bfs(Graph* G,Node* X) {
 	return r;
 }
 
-std::vector<std::pair<std::pair<Node*, Node*>, long long>> GrapgAlgo::prima(Graph* G, Node* X)
+result_vector GrapgAlgo::prima(Graph* G, Node* X)
 {
 	vector<pair<pair<Node*, Node*>, long long> > res;
 	res.push_back({ {X, X}, 0 });
@@ -86,9 +86,9 @@ std::vector<std::pair<std::pair<Node*, Node*>, long long>> GrapgAlgo::prima(Grap
 	return res;
 }
 
-std::vector<std::pair<std::pair<Node*, Node*>, long long>> GrapgAlgo::dijkstra(Graph* G, Node* X)
+result_vector GrapgAlgo::dijkstra(Graph* G, Node* X)
 {
-	vector<pair<pair<Node*, Node*>, long long> > res;
+	result_vector res;
 	res.push_back({ {X, X}, 0 });
 	int N = G->Nodees.size();
 
@@ -113,6 +113,5 @@ std::vector<std::pair<std::pair<Node*, Node*>, long long>> GrapgAlgo::dijkstra(G
 			}
 		}
 	}
-
 	return res;
 }
