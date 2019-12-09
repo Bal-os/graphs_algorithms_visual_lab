@@ -8,6 +8,7 @@ class State
 private:
 	sf::RenderWindow* window;
 	sf::Font* font;
+	sf::Text text;
 	Graph graph;
 	GrapgAlgo algoritms;
 	Node* prev;

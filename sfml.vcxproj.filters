@@ -63,4 +63,7 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
+  </ItemGroup>
 </Project>

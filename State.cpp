@@ -26,18 +26,36 @@ void State::updateMouseClick(){
 	this->mousePosWindow = sf::Mouse::getPosition(*(this->window));
 	this->mousePosView = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 }
-
+#include<iostream>
 void State::mouseClick(sf::Mouse::Button click){
 		if (click == sf::Mouse::Button::Left) {
 			bool isButtonClick = false;
-			if (!graph.edges.empty())
+			isButtonClick = buttons[0]->updateClick(mousePosView, 10);
+			if (isButtonClick)
 			{
-				for (auto i : buttons)
+				graph = buttons[0]->getGrph();
+				thisNode = nullptr;
+				prev = nullptr;
+				pos = -1;
+			}
+			else
+			if (!graph.edges.empty() && thisNode != nullptr)
+			{
+				for (int i = 1; i < buttons.size(); i++)
 				{
-					if (!isButtonClick)
-						isButtonClick = i->updateClick(mousePosView, thisNode, cur);
-					else
-						break;
+						isButtonClick = buttons[i]->updateClick(mousePosView, thisNode, cur);
+						if (isButtonClick)
+						{
+							startAlgo();
+							// /*
+							for (int i = 0; i < graph.costs.size(); i++)
+								for (int j = 0; j < graph.costs[i].size(); j++)
+								{
+									std::cout << i << " " << j << " " << graph.costs[i][j] << std::endl;
+								}
+							//*/
+							break;
+						}
 				}
 			}
 			if (!isButtonClick)
@@ -61,9 +79,9 @@ void State::mouseClick(sf::Mouse::Button click){
 				if (prev != nullptr && *X == *prev)
 					prev = nullptr;
 			}
-			else startAlgo();
 		}
-		if (click == sf::Mouse::Button::Right) {
+		if (click == sf::Mouse::Button::Right) 
+			if(thisNode != nullptr || prev != nullptr){
 			isPrevMove = false;
 			Node* X = new Node(mousePosView.x, mousePosView.y);
 			if (prev != nullptr && *X == *prev)
@@ -79,7 +97,7 @@ void State::mouseClick(sf::Mouse::Button click){
 								int x2 = i->getX();
 								int y1 = thisNode->getY();
 								int y2 = i->getY();
-								graph.addEdge(thisNode, i);//, int(sqrt((x1 - x2)* (x1 - x2) + (y1 - y2)* (y1 - y2))));
+								graph.addEdge(thisNode, i, int(sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)))));
 								prev = i;
 							}
 
@@ -102,8 +120,11 @@ void State::keyClick(sf::Keyboard::Key click){
 		}
 	
 	if (click == sf::Keyboard::Key::Right){
-		if(pos < cur.size() - 1)
+		if (pos < cur.size() - 1)
+		{
 			pos++;
+			std::cout << cur[pos].second << std::endl;
+		}
 	}
 	if (click == sf::Keyboard::Key::Left){
 		if (pos > 0)
@@ -111,7 +132,10 @@ void State::keyClick(sf::Keyboard::Key click){
 	}
 	if (click == sf::Keyboard::Key::Delete) {
 		if (thisNode != nullptr)
+		{
 			graph.deleteNode(thisNode);
+			thisNode = prev;
+		}
 	}
 }
 
@@ -137,11 +161,11 @@ void State::mousePosition(sf::Mouse::Button click)
 
 void State::updateMousePosition()
 {
-	if (isThisMove)
+	if (isThisMove && thisNode != nullptr)
 	{
 		thisNode->moveTo(mousePosView.x, mousePosView.y);
 	}
-	if (isPrevMove)
+	if (isPrevMove && prev != nullptr)
 	{
 		prev->moveTo(mousePosView.x, mousePosView.y);
 	}
@@ -204,12 +228,17 @@ State::State(){
 
 }
 
+#include <iostream>
+
 State::State(sf::RenderWindow* window){
+	srand(time(0));
 	this->window = window;
 	font = new sf::Font();
 	font->loadFromFile("arial.ttf");
+	buttons.push_back(new ButtonSt(&(GrapgAlgo::generateComponent), 0, 0, 60., 20., font, L"new Graph", window));
 	buttons.push_back(new Button(&graph, &GrapgAlgo::dijkstra, window->getSize().x * 1., 0., 60., 20.,font , L"dijkstra"));
 	buttons.push_back(new Button(&graph, &GrapgAlgo::prima, window->getSize().x * 1., 21., 60., 20., font, L"prima"));
+
 }
 
 

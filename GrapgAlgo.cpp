@@ -115,3 +115,33 @@ result_vector GrapgAlgo::dijkstra(Graph* G, Node* X)
 	}
 	return res;
 }
+
+long long GrapgAlgo::rnd() const {
+	long long r = rand();
+	return (r << 15) + rand();
+}
+
+Node* GrapgAlgo::randNode(int width, int height) const {
+	double x = rand() % (width + 1) ;
+	double y = rand() % (height + 1);
+	return new Node(x, y);
+}
+
+Graph GrapgAlgo::generateComponent(int size, int width, int height, double probality) {
+	Graph graph;
+	vector<Node*> component(size);
+	for (size_t i = 0; i < component.size(); ++i) {
+		component[i] = randNode(width - STANDART_RADIUS * 2, height - STANDART_RADIUS * 2);
+		graph.addNode(component[i]);
+	}
+	for (size_t i = 0; i < component.size(); ++i) {
+		for (size_t j = 0; j < component.size(); ++j) {
+			if (i == j) continue;
+			if (i > j) continue;
+			if (rand() % 10001 < probality * 10000) {
+				graph.addEdge(component[i], component[j], rnd() % (MAX_COST + 1));
+			}
+		}
+	}
+	return graph;
+}
