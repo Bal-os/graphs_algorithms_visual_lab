@@ -43,7 +43,7 @@ void State::mouseClick(sf::Mouse::Button click){
 			{
 				for (int i = 1; i < buttons.size(); i++)
 				{
-						isButtonClick = buttons[i]->updateClick(mousePosView, thisNode, cur);
+						isButtonClick = buttons[i]->updateClick(mousePosView, thisNode, prev, cur);
 						if (isButtonClick)
 						{
 							startAlgo();
@@ -106,8 +106,8 @@ void State::mouseClick(sf::Mouse::Button click){
 				}
 				else if (*X == *thisNode)
 				{
-					if (thisNode != nullptr && prev != nullptr)
-						graph.addEdge(prev, thisNode);
+					prev = thisNode;
+					thisNode = nullptr;
 				}
 			}
 		}
@@ -237,8 +237,8 @@ State::State(sf::RenderWindow* window){
 	font->loadFromFile("arial.ttf");
 	buttons.push_back(new ButtonSt(&(GrapgAlgo::generateComponent), 0, 0, 60., 20., font, L"new Graph", window));
 	buttons.push_back(new Button(&graph, &GrapgAlgo::dijkstra, window->getSize().x * 1., 0., 60., 20.,font , L"dijkstra"));
-	buttons.push_back(new Button(&graph, &GrapgAlgo::prima, window->getSize().x * 1., 21., 60., 20., font, L"prima"));
-
+	buttons.push_back(new Button(&graph, &GrapgAlgo::prima, window->getSize().x * 1., 20., 60., 20., font, L"prima"));
+	buttons.push_back(new Button(&graph, &GrapgAlgo::ford_fulkerson, window->getSize().x * 1., 40., 60., 20., font, L"ford fulkerson"));
 }
 
 

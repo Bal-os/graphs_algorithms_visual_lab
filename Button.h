@@ -9,6 +9,7 @@ class Button
 private:
 
 	result_vector(GrapgAlgo::*f) (Graph*, Node*);
+	result_vector(GrapgAlgo::*ff) (Graph*, Node*, Node*);
 	Graph* graph;
 
 protected:
@@ -28,11 +29,13 @@ protected:
 public:
 	Button(Graph *graph, result_vector (GrapgAlgo::*)(Graph*, Node*), double lx, double y, double wight, double hight,sf::Font* font, const sf::String& text,
 		sf::Color idleColor = sf::Color::White, sf::Color hoverColor = sf::Color(200, 200, 200), sf::Color activeColor = sf::Color(100, 100, 100));
+	Button(Graph* graph, result_vector(GrapgAlgo::*)(Graph*, Node*, Node*), double lx, double y, double wight, double hight, sf::Font* font, const sf::String& text,
+		sf::Color idleColor = sf::Color::White, sf::Color hoverColor = sf::Color(200, 200, 200), sf::Color activeColor = sf::Color(100, 100, 100));
 	Button();
 	const bool isPressed() const;
 
 	void render(sf::RenderTarget* target);
-	bool updateClick(sf::Vector2f MousePos, Node*, result_vector& );
+	bool updateClick(sf::Vector2f MousePos, Node*, Node*, result_vector& );
 	void update(sf::Vector2f MousePos);
 	virtual bool updateClick(sf::Vector2f MousePos, int size);
 	virtual Graph getGrph();

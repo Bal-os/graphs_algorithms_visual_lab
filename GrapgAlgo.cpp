@@ -116,6 +116,80 @@ result_vector GrapgAlgo::dijkstra(Graph* G, Node* X)
 	return res;
 }
 
+long long GrapgAlgo::findFlow(Graph *g, int X, long long flow, vector<bool>& visited, vector<int>* inv, int* sz, result_vector& cur, int Y) {
+	if (X == Y) return flow;
+	visited[X] = true;
+	for (size_t i = 0; i < g->edges[X].size(); ++i) {
+		int to = g->edges[X][i];
+		if (!visited[to] && g->costs[X][i] > 0) {
+			int minResult = findFlow(g, to, min(flow, g->costs[X][i]), visited, inv, sz, cur, Y);
+			if (minResult > 0) {
+				int invers = inv[X][i];
+
+				g->costs[X][i] -= minResult;
+				g->costs[to][invers] += minResult;
+				if (i < sz[X]) {
+					cur.push_back({ {g->Nodees[X], g->Nodees[to]}, -minResult });
+				}
+				else if (invers < sz[to]) {
+					cur.push_back({ {g->Nodees[to], g->Nodees[X]}, minResult });
+				}
+
+				return minResult;
+			}
+		}
+	}
+	return 0;
+}
+
+result_vector GrapgAlgo::ford_fulkerson(Graph* G, Node* X, Node* Y) {
+	size_t N = static_cast<size_t>(G->Nodees.size());
+	int *sz = new int [N];
+	vector<int> *inv = new vector<int> [N];
+	for (int i = 0; i < N; ++i) {
+		sz[i] = G->edges[i].size();
+		inv[i].resize(sz[i]);
+	}
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < sz[i]; ++j) {
+			int to = G->edges[i][j];
+			inv[i][j] = G->edges[to].size();
+			inv[to].push_back(j);
+
+			G->edges[to].push_back(i);
+			G->costs[to].push_back(0);
+		}
+	}
+
+	int maxFlow = 0;
+	int iterationResult = 0;
+	result_vector res;
+	result_vector cur;
+
+	vector<bool> visited(N, false);
+	while ((iterationResult = findFlow(G, X->getNum(), INF_FLOW, visited, inv, sz, cur, Y->getNum())) > 0) {
+		visited.assign(N, false);
+
+		reverse(cur.begin(), cur.end());
+		for (size_t i = 0; i < cur.size(); ++i)res.push_back(cur[i]);
+		cur.clear();
+		res.push_back({ {nullptr, nullptr}, iterationResult });
+	}
+
+	for (size_t i = 0; i < N; ++i) {
+		while (G->edges[i].size() > sz[i]) G->edges[i].pop_back();
+		while (G->costs[i].size() > sz[i]) G->costs[i].pop_back();
+	}
+
+	for (size_t i = 0; i < res.size(); ++i) {
+		if (res[i].first.first) {
+			G->setCost(res[i].first.first, res[i].first.second, G->getCost(res[i].first.first, res[i].first.second) - res[i].second);
+		}
+	}
+
+	return res;
+}
+
 long long GrapgAlgo::rnd() const {
 	long long r = rand();
 	return (r << 15) + rand();

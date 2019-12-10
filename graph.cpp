@@ -87,6 +87,30 @@ void Graph::addEdge(const Node *X, const Node *Y, long long cost) {
 	addEdge(X->getNum(), Y->getNum(), cost);
 }
 
+int Graph::getCost(int x, int y) const {
+	for (size_t i = 0; i < edges[x].size(); ++i) {
+		if (edges[x][i] == y) return costs[x][i];
+	}
+	return -1;
+}
+
+int Graph::getCost(const Node * X, const Node * Y) const {
+	return getCost(X->getNum(), Y->getNum());
+}
+
+void Graph::setCost(int x, int y, long long cost) {
+	for (size_t i = 0; i < edges[x].size(); ++i) {
+		if (edges[x][i] == y) costs[x][i] = cost;
+	}
+	for (size_t i = 0; i < edges[y].size(); ++i) {
+		if (edges[y][i] == x) costs[y][i] = cost;
+	}
+}
+
+void Graph::setCost(const Node* X, const Node* Y, long long cost) {
+	setCost(X->getNum(), Y->getNum(), cost);
+}
+
 Graph::Graph(int size) {
 	resize(size);
 }
